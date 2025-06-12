@@ -17,13 +17,21 @@
                     <img src="../img/avatar.png" alt="Perfil">
                 </div>
             </div>
-            <button onclick="cerrarSesion()" class="btn btn-secondary">Cerrar Sesión</button>
+            <div class="settings-menu-container">
+                <button class="settings-btn" id="settingsBtn">
+                    <i class="fas fa-cog"></i>
+                </button>
+                <div class="dropdown-menu" id="settingsDropdown">
+                    <a href="perfil.html">Perfil</a>
+                    <a href="#" onclick="cerrarSesion()">Cerrar Sesión</a>
+                </div>
+            </div>
         </header>
         
         <div class="quick-actions">
             <h3>¿Qué quieres hacer?</h3>
             <div class="action-buttons">
-                <a href="pacientes.html" class="action-btn">
+                <a href="registrar_paciente.html" class="action-btn">
                     <i class="fas fa-paw"></i>
                     <span>Registrar paciente</span>
                 </a>
@@ -33,7 +41,20 @@
                 </a>
             </div>
         </div>
-        
+
+        <!-- Mensaje de éxito para el registro de pacientes -->
+        <div id="successMessage" class="success-message" style="display: none;">
+            ¡Paciente registrado exitosamente!
+        </div>
+
+        <!-- Sección para mostrar pacientes registrados -->
+        <div class="registered-patients">
+            <h3>Mis Pacientes</h3>
+            <div id="patientList" class="patient-list-container">
+                <!-- Los pacientes se cargarán aquí dinámicamente -->
+            </div>
+        </div>
+
         <div class="upcoming-appointments">
             <h3>Próximas Citas</h3>
             <div class="appointment-list">
@@ -107,6 +128,7 @@
     
     <script src="../js/app.js"></script>
     <script src="../js/auth.js"></script>
+    <script src="../js/pacientes.js"></script>
     <script>
         // Verificar sesión al cargar el dashboard
         verificarSesion();
@@ -115,6 +137,39 @@
         const usuario = JSON.parse(localStorage.getItem('usuarioActual'));
         if (usuario) {
             document.getElementById('userName').textContent = usuario.nombre;
+        }
+    
+        // Mostrar mensaje de éxito si existe
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('registered') && urlParams.get('registered') === 'true') {
+            document.getElementById('successMessage').style.display = 'block';
+            // Opcional: ocultar el mensaje después de unos segundos
+            setTimeout(() => {
+                document.getElementById('successMessage').style.display = 'none';
+            }, 5000);
+        }
+    
+        // Cargar y mostrar pacientes al cargar el dashboard
+        document.addEventListener('DOMContentLoaded', loadPatients);
+    
+        // Lógica para el menú desplegable del engranaje
+        const settingsBtn = document.getElementById('settingsBtn');
+        const settingsDropdown = document.getElementById('settingsDropdown');
+    
+        if (settingsBtn && settingsDropdown) {
+            settingsBtn.addEventListener('click', (event) => {
+                event.stopPropagation(); // Evita que el clic se propague y cierre el menú inmediatamente
+                settingsDropdown.classList.toggle('show');
+            });
+    
+            // Cierra el menú si se hace clic fuera de él
+            window.addEventListener('click', (event) => {
+                if (!event.target.matches('#settingsBtn') && !event.target.matches('.settings-btn i')) {
+                    if (settingsDropdown.classList.contains('show')) {
+                        settingsDropdown.classList.remove('show');
+                    }
+                }
+            });
         }
     </script>
 </body>

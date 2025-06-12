@@ -53,5 +53,5 @@ function verificarSesion() {
 // Función para cerrar sesión
 function cerrarSesion() {
     localStorage.removeItem('usuarioActual');
-    window.location.href = '/login.html';
+    window.location.href = '../index.html'; // Cambiado de '/login.html' a '../index.html'
 }
