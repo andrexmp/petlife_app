@@ -30,7 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 numeroChip,
                 vacunas,
                 observaciones,
-                foto: fotoBase64
+                foto: fotoBase64,
+                creationDate: new Date().toISOString() // Añadir la fecha de creación
             };
 
             let pacientes = JSON.parse(localStorage.getItem('pacientes')) || [];
@@ -58,7 +59,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const patientListContainer = document.getElementById('patientList');
         if (!patientListContainer) return; // Salir si no estamos en el dashboard
 
-        const pacientes = JSON.parse(localStorage.getItem('pacientes')) || [];
+        let pacientes = JSON.parse(localStorage.getItem('pacientes')) || [];
+        
+        // Ordenar pacientes por fecha de creación (los más recientes primero)
+        pacientes.sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate));
+
         patientListContainer.innerHTML = ''; // Limpiar lista actual
 
         if (pacientes.length === 0) {
@@ -66,9 +71,12 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        pacientes.forEach(paciente => {
+        // Mostrar solo los 3 pacientes más recientes
+        const latestPatients = pacientes.slice(0, 3);
+
+        latestPatients.forEach(paciente => {
             const patientCard = document.createElement('div');
-            patientCard.classList.add('patient-card');
+            patientCard.classList.add('appointment-card'); // Usar la misma clase que las citas
 
             const petAvatar = document.createElement('div');
             petAvatar.classList.add('pet-avatar');
@@ -78,18 +86,30 @@ document.addEventListener('DOMContentLoaded', () => {
             petAvatar.appendChild(img);
 
             const patientDetails = document.createElement('div');
-            patientDetails.classList.add('patient-details');
+            patientDetails.classList.add('appointment-details'); // Usar la misma clase que las citas
             const nameElement = document.createElement('h4');
             nameElement.textContent = paciente.nombre;
             const speciesElement = document.createElement('p');
             speciesElement.textContent = `Especie: ${paciente.especie}`;
-            // Puedes añadir más detalles aquí si lo deseas
+            
+            // Botón "Ver ficha"
+            const viewDetailsButton = document.createElement('button');
+            viewDetailsButton.textContent = 'Ver ficha';
+            viewDetailsButton.classList.add('btn-small'); // Usar la misma clase que las citas
+            viewDetailsButton.onclick = () => {
+                window.location.href = `ver_paciente.html?id=${paciente.id}`;
+            };
 
             patientDetails.appendChild(nameElement);
             patientDetails.appendChild(speciesElement);
 
+            const patientActions = document.createElement('div');
+            patientActions.classList.add('appointment-actions');
+            patientActions.appendChild(viewDetailsButton);
+
             patientCard.appendChild(petAvatar);
             patientCard.appendChild(patientDetails);
+            patientCard.appendChild(patientActions);
 
             patientListContainer.appendChild(patientCard);
         });
