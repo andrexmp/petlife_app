@@ -38,6 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
             pacientes.push(nuevoPaciente);
             localStorage.setItem('pacientes', JSON.stringify(pacientes));
 
+            // Mostrar notificación de éxito
+            if (window.showNotification) {
+                window.showNotification(`¡Paciente ${nombre} registrado exitosamente!`, 'success', 3000);
+            }
+
             // Redirigir al dashboard con un mensaje de éxito
             window.location.href = `dashboard.html?registered=true`; // Simplificado para solo indicar registro exitoso
         });

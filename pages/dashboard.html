@@ -11,19 +11,34 @@
 <body>
     <div class="container">
         <header class="dashboard-header">
-            <div class="user-welcome">
-                <h2>Hola, <span id="userName">Dra. Adriana</span></h2>
-                <div class="user-avatar">
-                    <img src="../img/avatar.png" alt="Perfil">
-                </div>
+            <div class="header-title">
+                <h1>PetLife</h1>
             </div>
-            <div class="settings-menu-container">
-                <button class="settings-btn" id="settingsBtn">
-                    <i class="fas fa-cog"></i>
+            <div class="header-actions">
+                <button class="theme-toggle" id="themeToggle" title="Cambiar tema">
+                    <i class="fas fa-moon"></i>
                 </button>
-                <div class="dropdown-menu" id="settingsDropdown">
-                    <a href="perfil.html">Perfil</a>
-                    <a href="#" onclick="cerrarSesion()">Cerrar Sesión</a>
+
+                <div class="user-menu-container">
+                    <button class="user-menu-button" id="userMenuBtn">
+                        <img id="userAvatar" src="../img/avatar.png" alt="Perfil" class="user-avatar-img">
+                        <span id="userName"></span>
+                        <i class="fas fa-chevron-down dropdown-arrow"></i>
+                    </button>
+                    <div class="dropdown-menu user-dropdown" id="userDropdown">
+                        <div class="dropdown-header">
+                            <span id="userNameDropdown"></span>
+                            <span id="userEmailDropdown" class="user-email"></span>
+                        </div>
+                        <a href="perfil.html" class="dropdown-item">
+                            <i class="fas fa-user-circle"></i>
+                            <span>Mi Perfil</span>
+                        </a>
+                        <a href="#" onclick="cerrarSesion()" class="dropdown-item">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Cerrar Sesión</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </header>
@@ -39,6 +54,72 @@
                     <i class="fas fa-calendar-alt"></i>
                     <span>Citas programadas</span>
                 </a>
+            </div>
+        </div>
+
+        <!-- Estadísticas rápidas -->
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-paw"></i>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-number" id="totalPatients">0</span>
+                    <span class="stat-label">Pacientes</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-number" id="todayAppointments">0</span>
+                    <span class="stat-label">Citas Hoy</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-number" id="weekAppointments">0</span>
+                    <span class="stat-label">Esta Semana</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtros rápidos -->
+        <div class="quick-filters">
+            <h3>Acceso Rápido</h3>
+            <div class="filter-buttons">
+                <button class="quick-filter" data-filter="today">
+                    <i class="fas fa-calendar-day"></i>
+                    <span>Hoy</span>
+                </button>
+                <button class="quick-filter" data-filter="tomorrow">
+                    <i class="fas fa-calendar-week"></i>
+                    <span>Mañana</span>
+                </button>
+                <button class="quick-filter" data-filter="week">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Esta Semana</span>
+                </button>
+                <button class="quick-filter" data-filter="urgent">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Urgentes</span>
+                </button>
+                <button class="quick-filter" data-filter="new-patients">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Nuevos</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Recordatorios importantes -->
+        <div class="reminders-section" id="remindersSection" style="display: none;">
+            <h3>Recordatorios Importantes</h3>
+            <div id="remindersList" class="reminders-list">
+                <!-- Los recordatorios se cargarán aquí dinámicamente -->
             </div>
         </div>
 
@@ -59,49 +140,15 @@
         </div>
 
         <div class="upcoming-appointments">
-            <h3>Próximas Citas</h3>
-            <div class="appointment-list">
-                <div class="appointment-card">
-                    <div class="pet-avatar">
-                        <img src="../img/dog1.jpg" alt="Mascota">
-                    </div>
-                    <div class="appointment-details">
-                        <h4>Molly</h4>
-                        <p>30-01-2025</p>
-                        <p class="appointment-type">Consulta general</p>
-                    </div>
-                    <div class="appointment-actions">
-                        <button class="btn-small">Ver</button>
-                    </div>
-                </div>
-                
-                <div class="appointment-card">
-                    <div class="pet-avatar">
-                        <img src="../img/cat1.jpg" alt="Mascota">
-                    </div>
-                    <div class="appointment-details">
-                        <h4>Luna</h4>
-                        <p>30-01-2025</p>
-                        <p class="appointment-type">Consulta general</p>
-                    </div>
-                    <div class="appointment-actions">
-                        <button class="btn-small">Ver</button>
-                    </div>
-                </div>
-                
-                <div class="appointment-card">
-                    <div class="pet-avatar">
-                        <img src="../img/dog2.jpg" alt="Mascota">
-                    </div>
-                    <div class="appointment-details">
-                        <h4>Buddy</h4>
-                        <p>02-02-2025</p>
-                        <p class="appointment-type">Vacunas</p>
-                    </div>
-                    <div class="appointment-actions">
-                        <button class="btn-small">Ver</button>
-                    </div>
-                </div>
+            <div class="section-header">
+                <h3>Próximas Citas</h3>
+                <a href="citas.html" class="view-all-link">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Ver todas</span>
+                </a>
+            </div>
+            <div id="upcomingAppointmentsList" class="appointment-list">
+                <!-- Las próximas citas se cargarán aquí dinámicamente -->
             </div>
         </div>
         
@@ -118,8 +165,8 @@
                 <i class="fas fa-calendar-alt"></i>
                 <span>Agenda</span>
             </a>
-            <a href="chat.html" class="nav-item">
-                <i class="fas fa-comment"></i>
+            <a href="mensajes.html" class="nav-item">
+                <i class="fas fa-comment-dots"></i>
                 <span>Mensajes</span>
             </a>
             <a href="perfil.html" class="nav-item">
@@ -132,6 +179,10 @@
     <script src="../js/app.js"></script>
     <script src="../js/auth.js"></script>
     <script src="../js/pacientes.js"></script>
+    <script src="../js/notifications.js"></script>
+    <script src="../js/test_patient.js"></script>
+    <script src="../js/dashboard.js"></script>
+    <script src="../js/test_dashboard.js"></script>
     <script>
         // Verificar sesión al cargar el dashboard
         verificarSesion();
@@ -145,35 +196,20 @@
         // Mostrar mensaje de éxito si existe
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has('registered') && urlParams.get('registered') === 'true') {
-            document.getElementById('successMessage').style.display = 'block';
-            // Opcional: ocultar el mensaje después de unos segundos
-            setTimeout(() => {
-                document.getElementById('successMessage').style.display = 'none';
-            }, 5000);
+            showNotification('¡Paciente registrado exitosamente!', 'success');
+            // Limpiar la URL para que el mensaje no reaparezca al recargar
+            window.history.replaceState({}, document.title, window.location.pathname);
         }
     
         // Cargar y mostrar pacientes al cargar el dashboard
-        document.addEventListener('DOMContentLoaded', loadPatients);
-    
-        // Lógica para el menú desplegable del engranaje
-        const settingsBtn = document.getElementById('settingsBtn');
-        const settingsDropdown = document.getElementById('settingsDropdown');
-    
-        if (settingsBtn && settingsDropdown) {
-            settingsBtn.addEventListener('click', (event) => {
-                event.stopPropagation(); // Evita que el clic se propague y cierre el menú inmediatamente
-                settingsDropdown.classList.toggle('show');
-            });
-    
-            // Cierra el menú si se hace clic fuera de él
-            window.addEventListener('click', (event) => {
-                if (!event.target.matches('#settingsBtn') && !event.target.matches('.settings-btn i')) {
-                    if (settingsDropdown.classList.contains('show')) {
-                        settingsDropdown.classList.remove('show');
-                    }
-                }
-            });
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+             // La lógica del dashboard ya se inicializa en dashboard.js
+             // La carga de pacientes ahora se puede manejar desde ahí si se desea,
+             // pero por ahora, la dejamos para mantener la funcionalidad original de la lista.
+            if (typeof loadPatients === 'function') {
+                loadPatients();
+            }
+        });
     </script>
 </body>
 </html>

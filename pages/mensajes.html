@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensajes - PetLife</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/mensajes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- El header principal ya no es necesario aquí, la UI de chat tendrá el suyo -->
+        
+        <div class="messages-page-container">
+            <header class="chat-header">
+                <a href="dashboard.html" class="back-button"><i class="fas fa-arrow-left"></i></a>
+                <img src="../img/avatar2.jpg" alt="Avatar" class="user-avatar">
+                <div class="user-info">
+                    <h3>Laura (Dueña de Molly)</h3>
+                    <p>En línea</p>
+                </div>
+            </header>
+
+            <div class="chat-box" id="chatBox">
+                <div class="message received">
+                    <div class="message-bubble">
+                        <p>Hola Dr. ¿Cómo está mi mascota?</p>
+                        <span class="message-time">10:00 AM</span>
+                    </div>
+                </div>
+                <div class="message sent">
+                    <div class="message-bubble">
+                        <p>Hola Laura, Molly está muy bien, se recupera favorablemente.</p>
+                        <span class="message-time">10:05 AM</span>
+                    </div>
+                </div>
+                <div class="message received">
+                    <div class="message-bubble">
+                        <p>¡Qué buena noticia! Muchas gracias.</p>
+                        <span class="message-time">10:10 AM</span>
+                    </div>
+                </div>
+                <div class="message sent">
+                    <div class="message-bubble">
+                        <p>De nada, cualquier cosa no dude en contactarme.</p>
+                        <span class="message-time">10:15 AM</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="message-input">
+                <input type="text" id="messageInput" placeholder="Escribe un mensaje...">
+                <button id="sendMessageBtn" title="Enviar mensaje">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+
+        <nav class="bottom-nav">
+            <a href="dashboard.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Inicio</span>
+            </a>
+            <a href="pacientes.html" class="nav-item">
+                <i class="fas fa-paw"></i>
+                <span>Pacientes</span>
+            </a>
+            <a href="citas.html" class="nav-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Agenda</span>
+            </a>
+            <a href="mensajes.html" class="nav-item active">
+                <i class="fas fa-comment-dots"></i>
+                <span>Mensajes</span>
+            </a>
+            <a href="perfil.html" class="nav-item">
+                <i class="fas fa-user"></i>
+                <span>Perfil</span>
+            </a>
+        </nav>
+    </div>
+    <script src="../js/app.js"></script>
+    <script>
+        // Lógica para el modo oscuro
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-theme');
+        }
+
+        // Scroll al final del chat
+        const chatBox = document.getElementById('chatBox');
+        chatBox.scrollTop = chatBox.scrollHeight;
+    </script>
+</body>
+</html>

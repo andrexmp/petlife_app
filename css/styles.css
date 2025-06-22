@@ -25,15 +25,19 @@ body {
     color: var(--text-color);
     background-color: var(--background);
     line-height: 1.6;
+    /* Añadir padding-bottom para dejar espacio a la barra de navegación fija */
+    padding-bottom: 70px; /* Ajusta este valor si tu barra de navegación es más alta */
 }
 
 /* Contenedor principal */
 .container {
-    width: 100%;
-    max-width: 480px;  /* Ancho máximo para simular móvil */
-    margin: 0 auto;
+    max-width: 480px; /* Ancho máximo para simular un dispositivo móvil */
+    margin: 0 auto;   /* Centrar el contenedor en la pantalla */
     padding: 20px;
+    padding-bottom: 95px; /* Más espacio para el menú de navegación inferior */
+    background-color: var(--background-color);
     min-height: 100vh;
+    box-sizing: border-box;
 }
 
 /* Botones */
@@ -336,5 +340,54 @@ body {
 }
 
 .appointment-card .btn-small:hover {
-    background-color: var(--primary-color);
+    transform: translateY(-1px);
+}
+
+/* Navegación inferior */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--background, white);
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    max-width: 480px;
+    margin: 0 auto;
+    border-top: 1px solid var(--border-color);
+    z-index: 1000;
+}
+
+.bottom-nav .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.bottom-nav .nav-item i {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.bottom-nav .nav-item span {
+    font-size: 12px;
+}
+
+.bottom-nav .nav-item.active {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.bottom-nav .nav-item {
+    text-decoration: none;
+    color: var(--light-text);
+    transition: color 0.2s ease-in-out;
+}
+
+/* Estilos para el modo oscuro */
+body.dark-theme {
+    --primary-color: #4FC3F7;      /* Azul claro para el tema oscuro */
 }

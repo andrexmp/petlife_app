@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda de Citas - PetLife</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/calendar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header-registro">
+            <a href="dashboard.html" class="back-button"><i class="fas fa-arrow-left"></i></a>
+            <h2>Agenda de Citas</h2>
+            <button id="addAppointmentBtn" class="add-btn">
+                <i class="fas fa-plus"></i>
+            </button>
+        </header>
+
+        <!-- Calendario -->
+        <div class="calendar-container">
+            <div class="calendar-header">
+                <button id="prevMonth" class="calendar-nav-btn">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <h3 id="currentMonth">Enero 2025</h3>
+                <button id="nextMonth" class="calendar-nav-btn">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            
+            <div class="calendar-weekdays">
+                <div>Dom</div>
+                <div>Lun</div>
+                <div>Mar</div>
+                <div>Mié</div>
+                <div>Jue</div>
+                <div>Vie</div>
+                <div>Sáb</div>
+            </div>
+            
+            <div id="calendarDays" class="calendar-days">
+                <!-- Los días se generarán dinámicamente -->
+            </div>
+        </div>
+
+        <!-- Filtros y estadísticas -->
+        <div class="appointment-filters">
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-filter="all">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Todas</span>
+                </button>
+                <button class="filter-tab" data-filter="today">
+                    <i class="fas fa-calendar-day"></i>
+                    <span>Hoy</span>
+                </button>
+                <button class="filter-tab" data-filter="week">
+                    <i class="fas fa-calendar-week"></i>
+                    <span>Esta Semana</span>
+                </button>
+            </div>
+            
+            <div class="appointment-stats">
+                <div class="stat-item">
+                    <i class="fas fa-calendar-check"></i>
+                    <span id="totalAppointments">0</span>
+                    <small>Total</small>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-clock"></i>
+                    <span id="todayAppointments">0</span>
+                    <small>Hoy</small>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-calendar-plus"></i>
+                    <span id="weekAppointments">0</span>
+                    <small>Esta Semana</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de citas -->
+        <div class="appointments-section">
+            <div class="section-header">
+                <h3 id="appointmentsTitle">Todas las Citas</h3>
+                <div class="view-toggle">
+                    <button class="view-btn active" data-view="list">
+                        <i class="fas fa-list"></i>
+                    </button>
+                    <button class="view-btn" data-view="cards">
+                        <i class="fas fa-th-large"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div id="appointmentList" class="appointment-list">
+                <!-- Las citas se cargarán aquí dinámicamente -->
+            </div>
+        </div>
+
+        <!-- Modal para agregar cita -->
+        <div id="addAppointmentModal" class="modal">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h3>Agendar Nueva Cita</h3>
+                <form id="addAppointmentForm">
+                    <div class="form-group">
+                        <label for="appointmentTitle">Tipo de Cita:</label>
+                        <select id="appointmentTitle" required>
+                            <option value="" disabled selected>Seleccione un tipo de cita</option>
+                            <option value="Consulta General">Consulta General</option>
+                            <option value="Vacunación">Vacunación</option>
+                            <option value="Cirugía">Cirugía</option>
+                            <option value="Control Postoperatorio">Control Postoperatorio</option>
+                            <option value="Exámenes de Laboratorio">Exámenes de Laboratorio</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="appointmentPatientName">Nombre del Paciente:</label>
+                        <select id="appointmentPatientName" required>
+                            <option value="" disabled selected>Seleccione un paciente</option>
+                            <!-- Los pacientes se cargarán dinámicamente -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="appointmentDate">Fecha:</label>
+                        <input type="date" id="appointmentDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="appointmentTime">Hora:</label>
+                        <input type="time" id="appointmentTime" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="appointmentNotes">Notas:</label>
+                        <textarea id="appointmentNotes" placeholder="Notas adicionales..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar Cita</button>
+                </form>
+            </div>
+        </div>
+
+        <nav class="bottom-nav">
+            <a href="dashboard.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Inicio</span>
+            </a>
+            <a href="pacientes.html" class="nav-item">
+                <i class="fas fa-paw"></i>
+                <span>Pacientes</span>
+            </a>
+            <a href="citas.html" class="nav-item active">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Agenda</span>
+            </a>
+            <a href="mensajes.html" class="nav-item">
+                <i class="fas fa-comment-dots"></i>
+                <span>Mensajes</span>
+            </a>
+            <a href="perfil.html" class="nav-item">
+                <i class="fas fa-user"></i>
+                <span>Perfil</span>
+            </a>
+        </nav>
+    </div>
+
+    <script src="../js/calendar.js"></script>
+    <script src="../js/citas.js"></script>
+    <script src="../js/notifications.js"></script>
+    <script src="../js/test_calendar.js"></script>
+</body>
+</html>
