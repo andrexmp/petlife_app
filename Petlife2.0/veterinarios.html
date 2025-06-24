@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Veterinarios - PetLife</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/veterinarios.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .vets-container { max-width:480px; margin:0 auto; background:rgba(255,255,255,0.98); border-radius:18px; box-shadow:0 8px 32px #667eea10; min-height:100vh; padding-bottom:90px; }
+        .vets-header { padding:22px 18px 10px 18px; border-radius:18px 18px 0 0; background:rgba(255,255,255,0.97); margin-bottom:18px; box-shadow:0 2px 12px #667eea11; }
+        .vets-list { display:flex; flex-direction:column; gap:14px; }
+        .vet-card { background:#f5f6fa; border-radius:14px; padding:12px 14px; box-shadow:0 2px 8px #667eea11; display:flex; align-items:center; gap:14px; }
+        .vet-avatar { width:48px; height:48px; border-radius:50%; object-fit:cover; border:2px solid #667eea; }
+        @media (max-width:600px) { .vets-container {padding:10px;} .vet-card {padding:8px 6px;} }
+        .bottom-nav { position:fixed; bottom:0; left:0; right:0; background:#fff; box-shadow:0 -2px 10px #667eea11; z-index:1000; max-width:480px; margin:0 auto; }
+    </style>
+</head>
+<body>
+    <div class="vets-container">
+        <!-- Header con búsqueda -->
+        <div class="vets-header">
+            <div class="header-content">
+                <h1>Veterinarios</h1>
+                <p>Encuentra el veterinario perfecto para tus mascotas</p>
+            </div>
+            
+            <!-- Barra de búsqueda -->
+            <div class="search-section">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Buscar veterinarios...">
+                    <button id="clearSearch" class="clear-btn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Filtros -->
+            <div class="filters-section">
+                <div class="filter-group">
+                    <label for="specialtyFilter">Especialidad:</label>
+                    <select id="specialtyFilter">
+                        <option value="">Todas</option>
+                        <option value="General">Medicina General</option>
+                        <option value="Cirugía">Cirugía</option>
+                        <option value="Dermatología">Dermatología</option>
+                        <option value="Cardiología">Cardiología</option>
+                        <option value="Ortopedia">Ortopedia</option>
+                        <option value="Oftalmología">Oftalmología</option>
+                        <option value="Dental">Dental</option>
+                        <option value="Emergencias">Emergencias</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="ratingFilter">Calificación:</label>
+                    <select id="ratingFilter">
+                        <option value="">Todas</option>
+                        <option value="4.5">4.5+ estrellas</option>
+                        <option value="4.0">4.0+ estrellas</option>
+                        <option value="3.5">3.5+ estrellas</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="distanceFilter">Distancia:</label>
+                    <select id="distanceFilter">
+                        <option value="">Cualquier distancia</option>
+                        <option value="5">Menos de 5 km</option>
+                        <option value="10">Menos de 10 km</option>
+                        <option value="20">Menos de 20 km</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenido principal -->
+        <div class="vets-content">
+            <!-- Vista de lista/cuadrícula -->
+            <div class="view-toggle">
+                <button class="view-btn active" data-view="list">
+                    <i class="fas fa-list"></i>
+                </button>
+                <button class="view-btn" data-view="grid">
+                    <i class="fas fa-th"></i>
+                </button>
+            </div>
+
+            <!-- Lista de veterinarios -->
+            <div class="vets-list" id="vetsList">
+                <!-- Los veterinarios se cargarán dinámicamente -->
+            </div>
+
+            <!-- Paginación -->
+            <div class="pagination" id="pagination">
+                <!-- La paginación se generará dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Menú Inferior -->
+    <nav class="bottom-nav" style="position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:12px 0;box-shadow:0 -2px 10px rgba(0,0,0,0.1);z-index:100;max-width:480px;margin:0 auto;">
+        <a href="inicio.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Inicio</span>
+        </a>
+        <a href="mis-mascotas.html" class="nav-item">
+            <i class="fas fa-paw"></i>
+            <span>Mascotas</span>
+        </a>
+        <a href="veterinarios.html" class="nav-item active">
+            <i class="fas fa-user-md"></i>
+            <span>Veterinarios</span>
+        </a>
+        <a href="agenda.html" class="nav-item">
+            <i class="fas fa-calendar"></i>
+            <span>Agenda</span>
+        </a>
+        <a href="notificaciones.html" class="nav-item">
+            <i class="fas fa-bell"></i>
+            <span>Notificaciones</span>
+        </a>
+        <a href="perfil-tutor.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Perfil</span>
+        </a>
+    </nav>
+
+    <!-- Modal de detalles del veterinario -->
+    <div id="vetModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="vet-details" id="vetDetails">
+                <!-- Los detalles se cargarán dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Sistema de notificaciones -->
+    <div id="notificationSystem" class="notification-system"></div>
+
+    <script src="/js/veterinarios.js"></script>
+</body>
+</html> 

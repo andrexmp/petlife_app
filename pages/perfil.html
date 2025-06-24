@@ -7,76 +7,299 @@
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/perfil.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .profile-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            padding: 2rem 1.5rem 1.5rem 1.5rem;
+            max-width: 430px;
+            margin: 2rem auto 6rem auto;
+        }
+        .profile-pic-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .profile-pic {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #4e9cff;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 2px 8px rgba(78,156,255,0.10);
+        }
+        .upload-pic-button {
+            background: #f0f4fa;
+            border: none;
+            border-radius: 50%;
+            padding: 0.5rem 0.6rem;
+            cursor: pointer;
+            margin-top: -2.2rem;
+            margin-left: 5.5rem;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+            transition: background 0.2s;
+        }
+        .upload-pic-button:hover {
+            background: #e0e6ef;
+        }
+        .profile-form .form-section {
+            margin-bottom: 2rem;
+            padding-bottom: 1.2rem;
+            border-bottom: 1px solid #e6eaf0;
+        }
+        .profile-form .form-section:last-child {
+            border-bottom: none;
+        }
+        .profile-form .form-section h3 {
+            margin-bottom: 0.7rem;
+            color: #298cff;
+            font-size: 1.15rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .profile-form .form-group {
+            margin-bottom: 1.2rem;
+        }
+        .profile-form label {
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+            display: block;
+            color: #222;
+        }
+        .profile-form input, .profile-form textarea, .profile-form select {
+            width: 100%;
+            padding: 0.5rem 2.2rem 0.5rem 0.8rem;
+            border-radius: 8px;
+            border: 1px solid #d0d7e2;
+            font-size: 1rem;
+            background: #f8fafc;
+            transition: border 0.2s;
+            box-sizing: border-box;
+        }
+        .profile-form input:focus, .profile-form textarea:focus {
+            border: 1.5px solid #4e9cff;
+            outline: none;
+            background: #fff;
+        }
+        .profile-form textarea {
+            min-height: 60px;
+            resize: vertical;
+        }
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+        .btn-primary {
+            background: #4e9cff;
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background: #298cff;
+        }
+        .btn-secondary {
+            background: #e0e6ef;
+            color: #333;
+        }
+        .btn-secondary:hover {
+            background: #d0d7e2;
+        }
+        .form-group.password-group {
+            position: relative;
+        }
+        .toggle-password {
+            background: none;
+            border: none;
+            position: absolute;
+            right: -0.3rem;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+            color: #4e9cff;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            height: 1.8rem;
+            width: 1.8rem;
+            justify-content: center;
+            z-index: 2;
+        }
+        .toggle-password:focus {
+            outline: none;
+        }
+        .notification {
+            position: fixed;
+            top: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.13);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            font-size: 1.1rem;
+        }
+        .notification-success { color: #2ecc40; }
+        .notification-error { color: #e74c3c; }
+        .notification-info { color: #4e9cff; }
+        @media (max-width: 600px) {
+            .profile-card {
+                padding: 1rem 0.3rem 1.5rem 0.3rem;
+            }
+            .profile-form .form-section h3 {
+                font-size: 1rem;
+            }
+        }
+        .input-password-wrapper {
+            display: flex;
+            align-items: stretch;
+            width: 100%;
+            position: relative;
+        }
+        .input-password-wrapper input[type="password"],
+        .input-password-wrapper input[type="text"] {
+            flex: 1 1 auto;
+            border-radius: 8px 0 0 8px;
+            border: 1.5px solid #d0d7e2;
+            border-right: none;
+            background: #f8fafc;
+            padding: 0.5rem 0.8rem;
+            font-size: 1rem;
+            transition: border 0.2s, background 0.2s;
+            box-sizing: border-box;
+            height: 2.5rem;
+            outline: none;
+        }
+        .input-password-wrapper input:focus {
+            border: 1.5px solid #4e9cff;
+            border-right: none;
+            background: #fff;
+            z-index: 2;
+        }
+        .input-password-wrapper .toggle-password {
+            border-radius: 0 8px 8px 0;
+            border: 1.5px solid #d0d7e2;
+            border-left: none;
+            background: #f8fafc;
+            color: #4e9cff;
+            font-size: 1.2rem;
+            width: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s, border 0.2s;
+            height: 2.5rem;
+            margin: 0;
+            padding: 0;
+            outline: none;
+        }
+        .input-password-wrapper input:focus + .toggle-password {
+            border: 1.5px solid #4e9cff;
+            border-left: none;
+            background: #fff;
+            z-index: 2;
+        }
+        .input-password-wrapper .toggle-password:focus {
+            outline: none;
+            background: #e0e6ef;
+        }
+        .form-group.password-group {
+            margin-bottom: 1.2rem;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <div class="profile-page-container">
-            <header class="profile-header">
-                <div class="profile-pic-container">
-                    <img src="../img/avatar.png" alt="Foto de Perfil" class="profile-pic" id="profilePic">
-                    <input type="file" id="uploadPic" accept="image/*" style="display: none;">
-                    <button class="upload-pic-button" onclick="document.getElementById('uploadPic').click();" title="Cambiar foto">
-                        <i class="fas fa-camera"></i>
-                    </button>
-                </div>
-                <h2 id="profileName">Dr. Andres</h2>
-            </header>
-
-            <div class="profile-form-container">
-                <form id="profileForm" class="profile-form">
-                    <!-- Sección de Cuenta -->
-                    <div class="form-section">
-                        <h3><i class="fas fa-user-shield"></i> Cuenta de Usuario</h3>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="userName">Usuario (Email):</label>
-                                <input type="text" id="userName" readonly>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Sección de Contraseña -->
-                    <div class="form-section">
-                        <h3><i class="fas fa-key"></i> Cambiar Contraseña</h3>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="currentPassword">Contraseña Actual:</label>
-                                <input type="password" id="currentPassword" placeholder="••••••••">
-                            </div>
-                            <div class="form-group">
-                                <label for="newPassword">Nueva Contraseña:</label>
-                                <input type="password" id="newPassword" placeholder="••••••••">
-                            </div>
-                            <div class="form-group">
-                                <label for="confirmPassword">Confirmar Contraseña:</label>
-                                <input type="password" id="confirmPassword" placeholder="••••••••">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Sección de Contacto -->
-                    <div class="form-section">
-                        <h3><i class="fas fa-address-card"></i> Información de Contacto</h3>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="phone">Teléfono:</label>
-                                <input type="tel" id="phone" placeholder="+56 9 1234 5678">
-                            </div>
-                            <div class="form-group">
-                                <label for="address">Dirección:</label>
-                                <input type="text" id="address" placeholder="Av. Siempre Viva 123">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-secondary" onclick="window.location.reload();">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                    </div>
-                </form>
+        <div class="profile-card">
+            <div class="profile-pic-container">
+                <img src="../img/avatar.png" alt="Foto de Perfil" class="profile-pic" id="profilePic">
+                <input type="file" id="uploadPic" accept="image/*" style="display: none;">
+                <button class="upload-pic-button" type="button" title="Cambiar foto" onclick="document.getElementById('uploadPic').click();">
+                    <i class="fas fa-camera"></i>
+                </button>
             </div>
+            <form id="profileForm" class="profile-form">
+                <div class="form-section">
+                    <h3><i class="fas fa-user-shield"></i> Cuenta de Usuario</h3>
+                    <div class="form-group">
+                        <label for="userName">Usuario:</label>
+                        <input type="text" id="userName" name="userName" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Correo electrónico:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                </div>
+                <div class="form-section">
+                    <h3><i class="fas fa-key"></i> Cambiar Contraseña</h3>
+                    <div class="form-group password-group">
+                        <label for="currentPassword">Contraseña Actual:</label>
+                        <div class="input-password-wrapper">
+                            <input type="password" id="currentPassword" name="currentPassword" autocomplete="current-password">
+                            <button type="button" class="toggle-password" onclick="togglePassword('currentPassword', this)"><i class="fas fa-eye"></i></button>
+                        </div>
+                    </div>
+                    <div class="form-group password-group">
+                        <label for="newPassword">Nueva Contraseña:</label>
+                        <div class="input-password-wrapper">
+                            <input type="password" id="newPassword" name="newPassword" autocomplete="new-password">
+                            <button type="button" class="toggle-password" onclick="togglePassword('newPassword', this)"><i class="fas fa-eye"></i></button>
+                        </div>
+                    </div>
+                    <div class="form-group password-group">
+                        <label for="confirmPassword">Confirmar Contraseña:</label>
+                        <div class="input-password-wrapper">
+                            <input type="password" id="confirmPassword" name="confirmPassword" autocomplete="new-password">
+                            <button type="button" class="toggle-password" onclick="togglePassword('confirmPassword', this)"><i class="fas fa-eye"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-section">
+                    <h3><i class="fas fa-address-card"></i> Información de Contacto</h3>
+                    <div class="form-group">
+                        <label for="phone">Teléfono:</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+56 9 1234 5678">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Dirección:</label>
+                        <input type="text" id="address" name="address" placeholder="Av. Siempre Viva 123">
+                    </div>
+                    <div class="form-group">
+                        <label for="specialty">Especialidad:</label>
+                        <input type="text" id="specialty" name="specialty" placeholder="Ej: Cirugía, Dermatología, etc.">
+                    </div>
+                    <div class="form-group">
+                        <label for="bio">Biografía:</label>
+                        <textarea id="bio" name="bio" placeholder="Cuéntanos sobre ti..."></textarea>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="window.location.reload();">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </form>
         </div>
-
         <nav class="bottom-nav">
             <a href="dashboard.html" class="nav-item">
                 <i class="fas fa-home"></i>
@@ -109,6 +332,31 @@
         if (localStorage.getItem('theme') === 'dark') {
             document.body.classList.add('dark-theme');
         }
+        // Mostrar/ocultar contraseña
+        function togglePassword(inputId, btn) {
+            const input = document.getElementById(inputId);
+            const icon = btn.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+        // Previsualización de imagen
+        document.getElementById('uploadPic').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    document.getElementById('profilePic').src = ev.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
     </script>
 </body>
 </html>

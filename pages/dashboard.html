@@ -7,6 +7,351 @@
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background: #f6f8fb;
+        }
+        .dashboard-header {
+            background: linear-gradient(90deg, #4e9cff 0%, #6fd6ff 100%);
+            color: #fff;
+            padding: 1.2rem 1rem 1rem 1rem;
+            border-radius: 0 0 18px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 12px rgba(78,156,255,0.08);
+        }
+        .header-title h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+        .theme-toggle {
+            background: rgba(255,255,255,0.15);
+            border: none;
+            border-radius: 50%;
+            padding: 0.6rem;
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .theme-toggle:hover {
+            background: rgba(255,255,255,0.25);
+        }
+        .user-menu-container {
+            display: flex;
+            align-items: center;
+        }
+        .user-menu-button {
+            display: flex;
+            align-items: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            gap: 0.5rem;
+            color: #fff;
+            font-size: 1rem;
+        }
+        .user-avatar-img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .dropdown-arrow {
+            margin-left: 0.2rem;
+        }
+        .user-dropdown {
+            min-width: 180px;
+        }
+        .quick-actions {
+            margin: 2rem 0 1.2rem 0;
+            text-align: center;
+        }
+        .quick-actions h3 {
+            font-size: 1.2rem;
+            color: #298cff;
+            margin-bottom: 1rem;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 1.2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .action-btn {
+            background: #fff;
+            color: #4e9cff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(78,156,255,0.08);
+            padding: 1.1rem 1.7rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            transition: background 0.2s, color 0.2s;
+        }
+        .action-btn i {
+            font-size: 1.7rem;
+        }
+        .action-btn:hover {
+            background: #4e9cff;
+            color: #fff;
+        }
+        .dashboard-stats {
+            display: flex;
+            gap: 1.2rem;
+            justify-content: center;
+            margin: 1.5rem 0 2rem 0;
+            flex-wrap: wrap;
+        }
+        .stat-card {
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 2px 8px rgba(78,156,255,0.08);
+            padding: 1.1rem 1.5rem;
+            min-width: 120px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .stat-icon {
+            background: #eaf4ff;
+            color: #4e9cff;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #298cff;
+        }
+        .stat-label {
+            font-size: 1rem;
+            color: #888;
+        }
+        .quick-filters {
+            margin: 2rem 0 1.2rem 0;
+        }
+        .quick-filters h3 {
+            font-size: 1.1rem;
+            color: #298cff;
+            margin-bottom: 0.7rem;
+        }
+        .filter-buttons {
+            display: flex;
+            gap: 0.7rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+        }
+        .quick-filter {
+            background: #fff;
+            color: #4e9cff;
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 2px 8px rgba(78,156,255,0.08);
+            padding: 0.7rem 1.2rem;
+            font-size: 1rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            min-width: 120px;
+        }
+        .quick-filter i {
+            font-size: 1.2rem;
+        }
+        .quick-filter:hover, .quick-filter.active {
+            background: #4e9cff;
+            color: #fff;
+        }
+        .reminders-section {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(78,156,255,0.08);
+            padding: 1.2rem 1rem;
+            margin-bottom: 2rem;
+        }
+        .reminders-section h3 {
+            color: #e67e22;
+            font-size: 1.1rem;
+            margin-bottom: 0.7rem;
+        }
+        .reminders-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+        }
+        .success-message {
+            background: #eafbe7;
+            color: #27ae60;
+            border-radius: 8px;
+            padding: 0.8rem 1.2rem;
+            margin: 1rem 0;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        .registered-patients {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(78,156,255,0.08);
+            padding: 1.2rem 1rem;
+            margin-bottom: 2rem;
+        }
+        .registered-patients h3 {
+            color: #4e9cff;
+            font-size: 1.1rem;
+            margin-bottom: 0.7rem;
+        }
+        .patient-list-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .view-more-patients {
+            text-align: right;
+            margin-top: 0.7rem;
+        }
+        .btn.btn-primary {
+            background: #4e9cff;
+            color: #fff;
+            border-radius: 8px;
+            padding: 0.5rem 1.2rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .btn.btn-primary:hover {
+            background: #298cff;
+        }
+        .upcoming-appointments {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(78,156,255,0.08);
+            padding: 1.2rem 1rem;
+            margin-bottom: 2rem;
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.7rem;
+        }
+        .section-header h3 {
+            color: #4e9cff;
+            font-size: 1.1rem;
+        }
+        .view-all-link {
+            color: #4e9cff;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 1rem;
+        }
+        .appointment-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+        }
+        .bottom-nav {
+            background: #fff;
+            border-radius: 18px 18px 0 0;
+            box-shadow: 0 -2px 12px rgba(78,156,255,0.08);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0.7rem 0 0.3rem 0;
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 100;
+        }
+        .bottom-nav .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #4e9cff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            gap: 0.2rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 8px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .bottom-nav .nav-item.active, .bottom-nav .nav-item:hover {
+            background: #eaf4ff;
+            color: #298cff;
+        }
+        .bottom-nav .nav-item i {
+            font-size: 1.4rem;
+        }
+        @media (max-width: 900px) {
+            .dashboard-stats {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .patient-list-container {
+                flex-direction: column;
+            }
+        }
+        @media (max-width: 600px) {
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1rem 0.5rem 0.7rem 0.5rem;
+            }
+            .header-title h1 {
+                font-size: 1.3rem;
+            }
+            .action-buttons {
+                flex-direction: column;
+                gap: 0.7rem;
+            }
+            .dashboard-stats {
+                gap: 0.7rem;
+            }
+            .stat-card {
+                min-width: 0;
+                width: 100%;
+                justify-content: flex-start;
+            }
+            .filter-buttons {
+                gap: 0.5rem;
+            }
+            .registered-patients, .upcoming-appointments, .reminders-section {
+                padding: 0.7rem 0.3rem;
+            }
+            .bottom-nav {
+                padding: 0.5rem 0 0.1rem 0;
+            }
+            .bottom-nav .nav-item {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -188,9 +533,13 @@
         verificarSesion();
         
         // Actualizar nombre de usuario
-        const usuario = JSON.parse(localStorage.getItem('usuarioActual'));
-        if (usuario) {
-            document.getElementById('userName').textContent = usuario.nombre;
+        const petLifeUser = JSON.parse(localStorage.getItem('petLifeUser'));
+        if (petLifeUser) {
+            document.getElementById('userName').textContent = petLifeUser.name || petLifeUser.nombre;
+            document.getElementById('userNameDropdown').textContent = petLifeUser.name || petLifeUser.nombre;
+            if (petLifeUser.avatar) {
+                document.getElementById('userAvatar').src = '../' + petLifeUser.avatar;
+            }
         }
     
         // Mostrar mensaje de éxito si existe

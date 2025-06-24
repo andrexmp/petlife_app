@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mis Mascotas - PetLife</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!-- FontAwesome -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/pets.css">
+    <style>
+        .pets-container { max-width:480px; margin:0 auto; background:rgba(255,255,255,0.98); border-radius:18px; box-shadow:0 8px 32px #667eea10; min-height:100vh; padding-bottom:90px; }
+        #pets-list { display:flex; flex-direction:column; gap:14px; }
+        .pet-card { background:#f5f6fa; border-radius:14px; padding:12px 14px; box-shadow:0 2px 8px #667eea11; display:flex; align-items:center; gap:14px; }
+        .pet-avatar-mini { width:48px; height:48px; border-radius:50%; object-fit:cover; border:2px solid #667eea; }
+        @media (max-width:600px) { .pets-container {padding:10px;} .pet-card {padding:8px 6px;} }
+        .bottom-nav { position:fixed; bottom:0; left:0; right:0; background:#fff; box-shadow:0 -2px 10px #667eea11; z-index:1000; max-width:480px; margin:0 auto; }
+    </style>
+</head>
+<body>
+    <div class="pets-container">
+        <h1>Mis Mascotas</h1>
+        <div id="pets-list"></div>
+        <button id="addPet" class="add-pet-btn">
+            <i class="fas fa-plus"></i> Añadir Mascota
+        </button>
+    </div>
+
+    <nav class="bottom-nav" style="position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:12px 0;box-shadow:0 -2px 10px rgba(0,0,0,0.1);z-index:100;max-width:480px;margin:0 auto;">
+        <a href="inicio.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Inicio</span>
+        </a>
+        <a href="mis-mascotas.html" class="nav-item active">
+            <i class="fas fa-paw"></i>
+            <span>Mascotas</span>
+        </a>
+        <a href="veterinarios.html" class="nav-item">
+            <i class="fas fa-user-md"></i>
+            <span>Veterinarios</span>
+        </a>
+        <a href="agenda.html" class="nav-item">
+            <i class="fas fa-calendar"></i>
+            <span>Agenda</span>
+        </a>
+        <a href="notificaciones.html" class="nav-item">
+            <i class="fas fa-bell"></i>
+            <span>Notificaciones</span>
+        </a>
+        <a href="perfil-tutor.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Perfil</span>
+        </a>
+    </nav>
+
+    <!-- Un solo script: pets.js manejará el botón -->
+    <script src="/js/pets.js"></script>
+</body>
+</html>

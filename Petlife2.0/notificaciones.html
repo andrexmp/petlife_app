@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Notificaciones - PetLife</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/notificaciones.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .notifications-container { max-width:480px; margin:0 auto; background:rgba(255,255,255,0.98); border-radius:18px; box-shadow:0 8px 32px #667eea10; min-height:100vh; padding-bottom:90px; }
+        .notifications-header { padding:22px 18px 10px 18px; border-radius:18px 18px 0 0; background:rgba(255,255,255,0.97); margin-bottom:18px; box-shadow:0 2px 12px #667eea11; }
+        .notifications-list { display:flex; flex-direction:column; gap:14px; }
+        .notification-card { background:#f5f6fa; border-radius:14px; padding:12px 14px; box-shadow:0 2px 8px #667eea11; display:flex; align-items:center; gap:14px; }
+        @media (max-width:600px) { .notifications-container {padding:10px;} .notification-card {padding:8px 6px;} }
+        .bottom-nav { position:fixed; bottom:0; left:0; right:0; background:#fff; box-shadow:0 -2px 10px #667eea11; z-index:1000; max-width:480px; margin:0 auto; }
+    </style>
+</head>
+<body>
+    <div class="notifications-container">
+        <!-- Header -->
+        <div class="notifications-header">
+            <div class="header-content">
+                <h1>Notificaciones</h1>
+                <p>Mantente al día con tus mascotas</p>
+            </div>
+            
+            <!-- Acciones -->
+            <div class="header-actions">
+                <button class="action-btn" id="markAllRead">
+                    <i class="fas fa-check-double"></i>
+                    Marcar todo como leído
+                </button>
+                <button class="action-btn" id="clearAll">
+                    <i class="fas fa-trash"></i>
+                    Limpiar todo
+                </button>
+            </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filters-section">
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-filter="all">
+                    <i class="fas fa-bell"></i>
+                    Todas
+                    <span class="tab-count" id="countAll">0</span>
+                </button>
+                <button class="filter-tab" data-filter="appointments">
+                    <i class="fas fa-calendar"></i>
+                    Citas
+                    <span class="tab-count" id="countAppointments">0</span>
+                </button>
+                <button class="filter-tab" data-filter="reminders">
+                    <i class="fas fa-clock"></i>
+                    Recordatorios
+                    <span class="tab-count" id="countReminders">0</span>
+                </button>
+                <button class="filter-tab" data-filter="alerts">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Alertas
+                    <span class="tab-count" id="countAlerts">0</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Lista de notificaciones -->
+        <div class="notifications-list" id="notificationsList">
+            <!-- Las notificaciones se cargarán dinámicamente -->
+        </div>
+
+        <!-- Estado vacío -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <i class="fas fa-bell-slash"></i>
+            <h3>No hay notificaciones</h3>
+            <p>Cuando tengas notificaciones, aparecerán aquí</p>
+        </div>
+    </div>
+
+    <!-- Menú Inferior -->
+    <nav class="bottom-nav" style="position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:12px 0;box-shadow:0 -2px 10px rgba(0,0,0,0.1);z-index:100;max-width:480px;margin:0 auto;">
+        <a href="inicio.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Inicio</span>
+        </a>
+        <a href="mis-mascotas.html" class="nav-item">
+            <i class="fas fa-paw"></i>
+            <span>Mascotas</span>
+        </a>
+        <a href="veterinarios.html" class="nav-item">
+            <i class="fas fa-user-md"></i>
+            <span>Veterinarios</span>
+        </a>
+        <a href="agenda.html" class="nav-item">
+            <i class="fas fa-calendar"></i>
+            <span>Agenda</span>
+        </a>
+        <a href="notificaciones.html" class="nav-item active">
+            <i class="fas fa-bell"></i>
+            <span>Notificaciones</span>
+        </a>
+        <a href="perfil-tutor.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Perfil</span>
+        </a>
+    </nav>
+
+    <!-- Sistema de notificaciones -->
+    <div id="notificationSystem" class="notification-system"></div>
+
+    <script src="/js/notificaciones.js"></script>
+</body>
+</html> 

@@ -44,14 +44,52 @@ function iniciarSesion(email, password) {
 
 // Función para verificar si hay sesión activa
 function verificarSesion() {
-    const usuarioActual = localStorage.getItem('usuarioActual');
-    if (!usuarioActual) {
-        window.location.href = '/login.html';
+    const petLifeUser = localStorage.getItem('petLifeUser');
+    const petLifeModule = localStorage.getItem('petLifeModule');
+    
+    if (!petLifeUser) {
+        // Detectar el módulo actual basado en la URL
+        const currentPath = window.location.pathname;
+        if (currentPath.includes('Petlife2.0') || currentPath.includes('pages')) {
+            // Si estamos en el módulo veterinario, redirigir al login veterinario
+            window.location.href = '../login-veterinario.html';
+        } else {
+            // Si estamos en el módulo tutor, redirigir al login tutor
+            window.location.href = 'Petlife2.0/login-tutor.html';
+        }
+        return;
+    }
+    
+    // Si hay sesión, verificar que el módulo coincida
+    const userData = JSON.parse(petLifeUser);
+    if (userData.role === 'veterinario' && petLifeModule !== 'veterinario') {
+        localStorage.removeItem('petLifeUser');
+        localStorage.removeItem('petLifeModule');
+        window.location.href = '../login-veterinario.html';
+    } else if (userData.role === 'tutor' && petLifeModule !== 'tutor') {
+        localStorage.removeItem('petLifeUser');
+        localStorage.removeItem('petLifeModule');
+        window.location.href = 'Petlife2.0/login-tutor.html';
     }
 }
 
 // Función para cerrar sesión
 function cerrarSesion() {
-    localStorage.removeItem('usuarioActual');
-    window.location.href = '../index.html'; // Cambiado de '/login.html' a '../index.html'
+    localStorage.removeItem('petLifeUser');
+    localStorage.removeItem('petLifeModule');
+    
+    // Detectar el módulo actual basado en la URL
+    const currentPath = window.location.pathname;
+    if (currentPath.includes('Petlife2.0')) {
+        // Si estamos en el módulo tutor, redirigir al login tutor
+        window.location.href = 'Petlife2.0/login-tutor.html';
+    } else {
+        // Si estamos en el módulo veterinario, redirigir al login veterinario
+        // Usar ruta relativa desde cualquier página del módulo veterinario
+        if (currentPath.includes('pages/')) {
+            window.location.href = '../login-veterinario.html';
+        } else {
+            window.location.href = 'login-veterinario.html';
+        }
+    }
 }

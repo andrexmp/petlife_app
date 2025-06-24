@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Perfil Mascota - PetLife</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/pet-profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="pet-profile-container">
+        <!-- Encabezado modificado -->
+        <div class="pet-profile-header">
+            <h1>Perfil Mascota</h1>
+            <div class="pet-menu-container">
+                <button class="pet-menu-btn">
+                    <i class="fas fa-ellipsis-v"></i>
+                </button>
+                <div class="pet-menu-dropdown">
+                    <button class="menu-item" id="editPetBtn">
+                        <i class="fas fa-edit"></i> Editar
+                    </button>
+                    <button class="menu-item" id="viewDocumentsBtn">
+                        <i class="fas fa-file-medical"></i> Comprobantes
+                    </button>
+                    <button class="menu-item" id="viewMedicalHistoryBtn">
+                        <i class="fas fa-history"></i> Historial
+                    </button>
+                    <button class="menu-item" id="deletePetBtn" style="color: #ff4444;">
+                        <i class="fas fa-trash-alt"></i> Eliminar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Foto e info básica -->
+        <div class="pet-basic-info">
+            <img src="" alt="Foto mascota" class="pet-photo">
+            <h2 class="pet-name">Molly</h2>
+            <p class="pet-type"></p>
+            <p class="pet-breed">Mestiza</p>
+            <p class="pet-details">Hembra, 5 años</p>
+        </div>
+
+        <!-- Detalles completos -->
+        <div class="pet-details-section">
+            <h3>Detalles</h3>
+            <form id="petDetailsForm">
+                <div class="detail-row">
+                    <span class="detail-label">Tipo:</span>
+                    <span class="detail-value" id="petType">Perro</span>
+                </div>
+                
+                <div class="detail-row">
+                    <span class="detail-label">Raza:</span>
+                    <span class="detail-value" id="petBreed">Mestiza</span>
+                </div>
+                
+                <div class="detail-row">
+                    <span class="detail-label">Género:</span>
+                    <span class="detail-value" id="petGender">Hembra</span>
+                </div>
+                
+                <div class="detail-row">
+                    <span class="detail-label">Esterilizada:</span>
+                    <span class="detail-value" id="petSterilized">Sí</span>
+                </div>
+                
+                <div class="detail-row">
+                    <span class="detail-label">Color:</span>
+                    <span class="detail-value" id="petColor">Blanca</span>
+                </div>
+                
+                <div class="detail-row">
+                    <span class="detail-label">Detalles de color:</span>
+                    <span class="detail-value" id="petColorDetails">Manchas café claro</span>
+                </div>
+                
+                <div class="detail-row">
+                    <span class="detail-label">Enfermedades:</span>
+                    <span class="detail-value" id="petDiseases">Epilepsia</span>
+                </div>
+                
+                <div class="detail-row">
+                    <span class="detail-label">Alergias:</span>
+                    <span class="detail-value" id="petAllergies">Sin alergias</span>
+                </div>
+                
+                <div class="detail-row">
+                    <span class="detail-label">Peso:</span>
+                    <span class="detail-value" id="petWeight">7.4 kg</span>
+                </div>
+                
+                <div class="detail-row">
+                    <span class="detail-label">Microchip:</span>
+                    <span class="detail-value" id="petMicrochip">123456789012345</span>
+                </div>
+            </form>
+        </div>
+
+        <!-- Historial Médico -->
+        <div class="medical-history">
+            <div class="section-header">
+                <h3>Historial Médico</h3>
+                <button class="view-all-btn">Ver todo</button>
+            </div>
+            
+            <div class="vaccine-card">
+                <div class="vaccine-info">
+                    <span class="vaccine-name">Vacunación</span>
+                    <span class="vaccine-date">15 de mayo, 2025</span>
+                    <span class="vaccine-status">Vacunas al día</span>
+                </div>
+                <div class="next-appointment">
+                    <span>Próxima consulta:</span>
+                    <span class="appointment-date">15 de noviembre, 2025</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="inicio.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Inicio</span>
+        </a>
+        <a href="mis-mascotas.html" class="nav-item active">
+            <i class="fas fa-paw"></i>
+            <span>Mascotas</span>
+        </a>
+        <a href="veterinarios.html" class="nav-item">
+            <i class="fas fa-user-md"></i>
+            <span>Veterinarios</span>
+        </a>
+        <a href="agenda.html" class="nav-item">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Agenda</span>
+        </a>
+        <a href="notificaciones.html" class="nav-item">
+            <i class="fas fa-bell"></i>
+            <span>Notis</span>
+        </a>
+        <a href="perfil-tutor.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Perfil</span>
+        </a>
+    </nav>
+
+    <script src="/js/pet-profile.js"></script>
+
+<!-- Modal de Edición -->
+
+<div id="editPetModal" class="modal">
+    <div class="modal-content">
+        <span class="close-edit-modal">&times;</span>
+        <h2>Editar Mascota</h2>
+        <form id="editPetForm" class="edit-form">
+            <input type="hidden" id="editPetId">
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="editPetName" required>Nombre</label>
+                    <input type="text" id="editPetName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editPetType" required>Tipo</label>
+                    <select id="editPetType" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="Perro">Perro</option>
+                        <option value="Gato">Gato</option>
+                        <option value="Ave">Ave</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="editPetBreed" required>Raza</label>
+                <input type="text" id="editPetBreed" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="editPetAge" required>Edad (años)</label>
+                    <input type="number" id="editPetAge" min="0" max="30" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editPetGender" required>Género</label>
+                    <select id="editPetGender" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="Hembra">Hembra</option>
+                        <option value="Macho">Macho</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="editPetSterilized">Esterilizado/a</label>
+                <select id="editPetSterilized">
+                    <option value="false">No</option>
+                    <option value="true">Sí</option>
+                </select>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="editPetColor">Color principal</label>
+                    <select id="editPetColor">
+                        <option value="">Seleccionar...</option>
+                        <option value="Negro">Negro</option>
+                        <option value="Blanco">Blanco</option>
+                        <option value="Café">Café</option>
+                        <option value="Beige">Beige</option>
+                        <option value="Naranja">Naranja</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editPetColorDetails">Detalle de color</label>
+                    <input type="text" id="editPetColorDetails" placeholder="Ej: Manchas grises">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="editPetDiseases">Enfermedades conocidas</label>
+                <textarea id="editPetDiseases" rows="3" placeholder="Ej: Diabetes, artritis..."></textarea>
+            </div>
+
+            <div class="form-group allergy-group">
+                <label for="editPetAllergies">¿Tiene alergias?</label>
+                <select id="editPetAllergies">
+                    <option value="false">No</option>
+                    <option value="true">Sí</option>
+                </select>
+                <div id="editAllergyDetailsContainer" style="display: none;">
+                    <label for="editAllergyDetails">¿A qué tiene alergia?</label>
+                    <input type="text" id="editAllergyDetails" placeholder="Ej: Pollo, gramíneas...">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="editPetWeight">Peso (kg)</label>
+                    <input type="number" id="editPetWeight" min="0" step="0.1" placeholder="Ej: 5.2">
+                </div>
+                
+                <div class="form-group">
+                    <label for="editPetMicrochip">Microchip/ID</label>
+                    <input type="text" id="editPetMicrochip" placeholder="Número de identificación">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="editPetPhoto">Foto</label>
+                <div class="file-input-container">
+                    <input type="file" id="editPetPhoto" accept="image/*">
+                </div>
+                <div class="photo-preview" id="editPhotoPreview"></div>
+            </div>
+            
+            <button type="submit" class="submit-btn">Guardar Cambios</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

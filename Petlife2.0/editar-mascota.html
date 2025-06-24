@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Editar Mascota - PetLife</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/pet-profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="pet-profile-container">
+        <div class="pet-profile-header">
+            <h1>Editar Mascota</h1>
+        </div>
+
+        <form id="editPetForm" class="pet-details-section">
+            <!-- Campos editables (mismos campos que en añadir mascota) -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="editPetName">Nombre *</label>
+                    <input type="text" id="editPetName" required>
+                </div>
+                <div class="form-group">
+                    <label for="editPetType">Tipo *</label>
+                    <select id="editPetType" required>
+                        <option value="Perro">Perro</option>
+                        <option value="Gato">Gato</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- ... (Agrega todos los campos del formulario de añadir mascota) ... -->
+
+            <!-- Botones de acción -->
+            <div class="action-buttons">
+                <button type="submit" class="btn-edit">Guardar Cambios</button>
+                <button type="button" id="deletePetBtn" class="btn-documents" style="background: #ff4444;">Eliminar Mascota</button>
+            </div>
+        </form>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="inicio.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Inicio</span>
+        </a>
+        <a href="mis-mascotas.html" class="nav-item active">
+            <i class="fas fa-paw"></i>
+            <span>Mascotas</span>
+        </a>
+        <a href="veterinarios.html" class="nav-item">
+            <i class="fas fa-user-md"></i>
+            <span>Veterinarios</span>
+        </a>
+        <a href="agenda.html" class="nav-item">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Agenda</span>
+        </a>
+        <a href="notificaciones.html" class="nav-item">
+            <i class="fas fa-bell"></i>
+            <span>Notis</span>
+        </a>
+        <a href="perfil-tutor.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Perfil</span>
+        </a>
+    </nav>
+
+    <script src="/js/editar-mascota.js"></script>
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Agenda - PetLife</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/agenda.css">
+    <style>
+        .agenda-container { max-width:480px; margin:0 auto; background:rgba(255,255,255,0.98); border-radius:18px; box-shadow:0 8px 32px #667eea10; min-height:100vh; padding-bottom:90px; }
+        .agenda-header { padding:22px 18px 10px 18px; border-radius:18px 18px 0 0; background:rgba(255,255,255,0.97); margin-bottom:18px; box-shadow:0 2px 12px #667eea11; }
+        .appointments-list { display:flex; flex-direction:column; gap:14px; }
+        .appointment-card { background:#f5f6fa; border-radius:14px; padding:12px 14px; box-shadow:0 2px 8px #667eea11; display:flex; align-items:center; gap:14px; }
+        @media (max-width:600px) { .agenda-container {padding:10px;} .appointment-card {padding:8px 6px;} }
+        .bottom-nav { position:fixed; bottom:0; left:0; right:0; background:#fff; box-shadow:0 -2px 10px #667eea11; z-index:1000; max-width:480px; margin:0 auto; }
+    </style>
+</head>
+<body>
+    <div class="agenda-container">
+        <!-- Header -->
+        <div class="agenda-header">
+            <div class="header-content">
+                <h1>Mi Agenda</h1>
+                <p>Gestiona las citas de tus mascotas</p>
+            </div>
+            
+            <!-- Botón para nueva cita -->
+            <button class="new-appointment-btn" id="newAppointmentBtn">
+                <i class="fas fa-plus"></i>
+                Nueva Cita
+            </button>
+        </div>
+
+        <!-- Filtros y estadísticas -->
+        <div class="agenda-stats">
+            <div class="stats-row">
+                <div class="stat-item">
+                    <span class="stat-number" id="totalAppointments">0</span>
+                    <span class="stat-label">Total Citas</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="todayAppointments">0</span>
+                    <span class="stat-label">Hoy</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="upcomingAppointments">0</span>
+                    <span class="stat-label">Próximas</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filters-section">
+            <div class="filter-group">
+                <label for="petFilter">Mascota:</label>
+                <select id="petFilter">
+                    <option value="">Todas las mascotas</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="statusFilter">Estado:</label>
+                <select id="statusFilter">
+                    <option value="">Todos</option>
+                    <option value="confirmada">Confirmada</option>
+                    <option value="pendiente">Pendiente</option>
+                    <option value="cancelada">Cancelada</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="dateFilter">Período:</label>
+                <select id="dateFilter">
+                    <option value="all">Todos</option>
+                    <option value="today">Hoy</option>
+                    <option value="week">Esta semana</option>
+                    <option value="month">Este mes</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Calendario -->
+        <div class="calendar-section">
+            <div class="calendar-header">
+                <button class="calendar-nav" id="prevMonth">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <h2 id="currentMonth">Diciembre 2024</h2>
+                <button class="calendar-nav" id="nextMonth">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            
+            <div class="calendar-grid">
+                <div class="calendar-weekdays">
+                    <div>Dom</div>
+                    <div>Lun</div>
+                    <div>Mar</div>
+                    <div>Mié</div>
+                    <div>Jue</div>
+                    <div>Vie</div>
+                    <div>Sáb</div>
+                </div>
+                <div class="calendar-days" id="calendarDays">
+                    <!-- Los días se generarán dinámicamente -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de citas -->
+        <div class="appointments-section">
+            <div class="section-header">
+                <h3>Citas del día seleccionado</h3>
+                <span id="selectedDate">Hoy</span>
+            </div>
+            
+            <div class="appointments-list" id="appointmentsList">
+                <!-- Las citas se cargarán dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Menú Inferior -->
+    <nav class="bottom-nav" style="position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:12px 0;box-shadow:0 -2px 10px rgba(0,0,0,0.1);z-index:100;max-width:480px;margin:0 auto;">
+        <a href="inicio.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Inicio</span>
+        </a>
+        <a href="mis-mascotas.html" class="nav-item">
+            <i class="fas fa-paw"></i>
+            <span>Mascotas</span>
+        </a>
+        <a href="veterinarios.html" class="nav-item">
+            <i class="fas fa-user-md"></i>
+            <span>Veterinarios</span>
+        </a>
+        <a href="agenda.html" class="nav-item active">
+            <i class="fas fa-calendar"></i>
+            <span>Agenda</span>
+        </a>
+        <a href="notificaciones.html" class="nav-item">
+            <i class="fas fa-bell"></i>
+            <span>Notificaciones</span>
+        </a>
+        <a href="perfil-tutor.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Perfil</span>
+        </a>
+    </nav>
+
+    <!-- Modal para nueva cita -->
+    <div id="appointmentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Nueva Cita</h2>
+            <form id="appointmentForm">
+                <div class="form-group">
+                    <label for="appointmentPet">Mascota *</label>
+                    <select id="appointmentPet" required>
+                        <option value="">Seleccionar mascota...</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="appointmentVet">Veterinario *</label>
+                    <select id="appointmentVet" required>
+                        <option value="">Seleccionar veterinario...</option>
+                    </select>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="appointmentDate">Fecha *</label>
+                        <input type="date" id="appointmentDate" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="appointmentTime">Hora *</label>
+                        <input type="time" id="appointmentTime" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="appointmentType">Tipo de consulta *</label>
+                    <select id="appointmentType" required>
+                        <option value="">Seleccionar tipo...</option>
+                        <option value="Consulta general">Consulta general</option>
+                        <option value="Vacunación">Vacunación</option>
+                        <option value="Desparasitación">Desparasitación</option>
+                        <option value="Control">Control</option>
+                        <option value="Emergencia">Emergencia</option>
+                        <option value="Cirugía">Cirugía</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="appointmentReason">Motivo de la consulta</label>
+                    <textarea id="appointmentReason" rows="3" placeholder="Describe el motivo de la consulta..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="appointmentUrgent">
+                        <input type="checkbox" id="appointmentUrgent">
+                        Cita urgente
+                    </label>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeAppointmentModal()">Cancelar</button>
+                    <button type="submit" class="btn-primary">Agendar Cita</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de detalles de cita -->
+    <div id="appointmentDetailsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="appointmentDetails">
+                <!-- Los detalles se cargarán dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Sistema de notificaciones -->
+    <div id="notificationSystem" class="notification-system"></div>
+
+    <script src="/js/agenda.js"></script>
+</body>
+</html> 

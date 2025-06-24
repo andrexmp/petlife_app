@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Configuración esencial para mobile -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Mi Perfil - PetLife</title>
+    <!-- Iconos de FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Hojas de estilo -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/profile.css">
+    <style>
+    .pet-card { display:flex;align-items:center;gap:12px;background:#f5f6fa;border-radius:14px;padding:10px 12px;margin-bottom:10px;box-shadow:0 2px 8px #667eea11;cursor:pointer;transition:box-shadow 0.2s; }
+    .pet-card:hover { box-shadow:0 4px 16px #667eea22; }
+    .pet-avatar-mini { width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid #667eea; }
+    .pet-fav { color:#e74c3c;font-size:22px;margin-left:8px;cursor:pointer;transition:color 0.2s, transform 0.2s; }
+    .pet-fav.selected { color:#ff1744; transform: scale(1.2); }
+    .pet-edit { color:#667eea;font-size:18px;margin-left:8px;cursor:pointer;transition:color 0.2s; }
+    .pet-edit:hover { color:#1976d2; }
+    @media (max-width:600px) { .profile-container {padding:10px;} .pet-card {padding:8px 6px;} }
+    </style>
+</head>
+<body>
+    <!-- Contenedor principal -->
+    <div class="profile-container">
+        <!-- Encabezado con saludo y foto -->
+        <div class="profile-header">
+            <h1 id="welcomeMessage">Hola, Usuario</h1>
+            <div class="profile-pic-container">
+                <img id="profilePicture" src="img/avatar.png" alt="Foto de perfil" class="profile-pic">
+                <label for="profileUpload" class="edit-icon">
+                    <i class="fas fa-camera"></i>
+                </label>
+                <input type="file" id="profileUpload" accept="image/*" style="display: none;">
+            </div>
+        </div>
+        <!-- Menú de usuario -->
+    <div class="user-menu-container">
+        <button class="user-menu-btn">
+        <i class="fas fa-ellipsis-v"></i>
+        </button>
+            <div class="user-menu-dropdown">
+            <button class="menu-item" id="editProfileBtn">
+            <i class="fas fa-user-edit"></i> Editar perfil
+            </button>
+            <button class="menu-item" id="logoutBtn">
+            <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+            </button>
+        </div>
+    </div>
+
+        <!-- Botón para añadir mascota -->
+        <button id="addPet" class="add-pet-btn">
+        <i class="fas fa-plus"></i> Añadir Mascota
+        </button>
+
+        <!-- Sección de Mascotas -->
+        <div class="section-header">
+            <h2 class="section-title">Mis mascotas</h2>
+            <button id="view-all-pets" class="view-all-btn">Ver todas</button>
+        </div>
+        
+        <div class="pets-preview" id="petsPreview">
+            <!-- Las mascotas se cargarán aquí dinámicamente -->
+        </div>
+
+        <!-- Sección de Veterinarios Favoritos -->
+        <div class="section-header">
+            <h2 class="section-title">Favoritos</h2>
+            <button id="view-all-vets" class="view-all-btn">Ver todos</button>
+        </div>
+        
+        <div class="vets-preview" id="vetsPreview">
+            <!-- Los veterinarios se cargarán aquí dinámicamente -->
+        </div>
+    </div>
+
+    <!-- Menú Inferior (fixed) -->
+    <nav class="bottom-nav">
+        <a href="inicio.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Inicio</span>
+        </a>
+        <a href="veterinarios.html" class="nav-item">
+            <i class="fas fa-user-md"></i>
+            <span>Vet</span>
+        </a>
+        <a href="agenda.html" class="nav-item">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Agenda</span>
+        </a>
+        <a href="notificaciones.html" class="nav-item">
+            <i class="fas fa-bell"></i>
+            <span>Notis</span>
+        </a>
+        <a href="perfil-tutor.html" class="nav-item active">
+            <i class="fas fa-user"></i>
+            <span>Perfil</span>
+        </a>
+    </nav>
+
+    <script src="/js/profile-tutor.js"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Cargar nombre y foto desde localStorage
+        const user = JSON.parse(localStorage.getItem('petLifeUser'));
+        if (user) {
+            document.getElementById('welcomeMessage').textContent = `Hola, ${user.name || user.usuario}`;
+            if(user.avatar) {
+                document.getElementById('profilePicture').src = user.avatar;
+            }
+        }
+        // Cambiar foto de perfil
+        const profileUpload = document.getElementById('profileUpload');
+        profileUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    document.getElementById('profilePicture').src = evt.target.result;
+                    // Guardar en localStorage
+                    if(user) {
+                        user.avatar = evt.target.result;
+                        localStorage.setItem('petLifeUser', JSON.stringify(user));
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Abrir modal de mascota
+        const addPetBtn = document.getElementById('addPet');
+        const petModal = document.getElementById('petModal');
+        const closeModal = document.querySelector('.close-modal');
+        addPetBtn.addEventListener('click', () => {
+            petModal.style.display = 'block';
+        });
+        closeModal.addEventListener('click', () => {
+            petModal.style.display = 'none';
+            document.getElementById('petForm').reset();
+        });
+        window.onclick = function(event) {
+            if (event.target == petModal) {
+                petModal.style.display = 'none';
+                document.getElementById('petForm').reset();
+            }
+        }
+
+        // Cargar razas dinámicamente
+        let razasData = null;
+        fetch('razas.json')
+            .then(res => res.json())
+            .then(data => { razasData = data; });
+        document.getElementById('petType').addEventListener('change', function() {
+            const type = this.value;
+            const breedsList = document.getElementById('breedsList');
+            breedsList.innerHTML = '';
+            if (type === 'Perro' && razasData) {
+                razasData.perros.forEach(r => {
+                    const opt = document.createElement('option');
+                    opt.value = r;
+                    breedsList.appendChild(opt);
+                });
+            } else if (type === 'Gato' && razasData) {
+                razasData.gatos.forEach(r => {
+                    const opt = document.createElement('option');
+                    opt.value = r;
+                    breedsList.appendChild(opt);
+                });
+            }
+        });
+
+        // Guardar mascota
+        document.getElementById('petForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let pets = JSON.parse(localStorage.getItem('pets')) || [];
+            const petId = document.getElementById('petId').value;
+            const pet = {
+                id: petId ? Number(petId) : Date.now(),
+                name: document.getElementById('petName').value,
+                type: document.getElementById('petType').value,
+                breed: document.getElementById('petBreed').value,
+                age: document.getElementById('petAge').value,
+                gender: document.getElementById('petGender').value,
+                sterilized: document.getElementById('petSterilized').value,
+                color: document.getElementById('petColor').value,
+                colorDetails: document.getElementById('petColorDetails').value,
+                diseases: document.getElementById('petDiseases').value,
+                allergies: document.getElementById('petAllergies').value,
+                allergyDetails: document.getElementById('allergyDetails').value,
+                weight: document.getElementById('petWeight').value,
+                microchip: document.getElementById('petMicrochip').value,
+                photo: ''
+            };
+            // Foto
+            const photoInput = document.getElementById('petPhoto');
+            if(photoInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    pet.photo = evt.target.result;
+                    savePet(pet, pets, petId);
+                };
+                reader.readAsDataURL(photoInput.files[0]);
+            } else {
+                // Si estamos editando, mantener la foto anterior
+                if(petId) {
+                    const old = pets.find(p => p.id == petId);
+                    if(old) pet.photo = old.photo;
+                }
+                savePet(pet, pets, petId);
+            }
+        });
+        function savePet(pet, pets, petId) {
+            if(petId) {
+                // Editar
+                const idx = pets.findIndex(p => p.id == petId);
+                if(idx !== -1) pets[idx] = pet;
+            } else {
+                pets.push(pet);
+            }
+            localStorage.setItem('pets', JSON.stringify(pets));
+            renderPets();
+            renderFavs();
+            document.getElementById('petModal').style.display = 'none';
+            document.getElementById('petForm').reset();
+            document.getElementById('petId').value = '';
+        }
+        // Renderizar mascotas
+        function renderPets() {
+            const pets = JSON.parse(localStorage.getItem('pets')) || [];
+            const favIds = JSON.parse(localStorage.getItem('favPetIds') || '[]');
+            const petsPreview = document.getElementById('petsPreview');
+            petsPreview.innerHTML = '';
+            pets.forEach(pet => {
+                const div = document.createElement('div');
+                div.className = 'pet-card';
+                div.innerHTML = `
+                    <img src="${pet.photo || 'img/avatar.png'}" alt="${pet.name}" class="pet-avatar-mini">
+                    <div style='flex:1;'>
+                      <b>${pet.name}</b> <br><span style='font-size:13px;color:#888;'>${pet.type} - ${pet.breed}</span>
+                    </div>
+                    <span class="pet-fav${favIds.includes(pet.id) ? ' selected' : ''}" title="Favorito">&#10084;</span>
+                    <span class="pet-edit" title="Editar">&#9998;</span>
+                `;
+                // Ver detalle al hacer clic en la tarjeta (excepto corazón o editar)
+                div.querySelector('.pet-avatar-mini').onclick = div.onclick = function(e) {
+                    if(e.target.classList.contains('pet-fav') || e.target.classList.contains('pet-edit')) return;
+                    showPetDetail(pet);
+                };
+                // Añadir/quitar favorito
+                div.querySelector('.pet-fav').onclick = function(e) {
+                    e.stopPropagation();
+                    let favs = JSON.parse(localStorage.getItem('favPetIds') || '[]');
+                    if(favs.includes(pet.id)) {
+                        favs = favs.filter(id => id !== pet.id);
+                    } else {
+                        favs.push(pet.id);
+                    }
+                    localStorage.setItem('favPetIds', JSON.stringify(favs));
+                    renderPets();
+                    renderFavs();
+                };
+                // Editar mascota
+                div.querySelector('.pet-edit').onclick = function(e) {
+                    e.stopPropagation();
+                    editPet(pet);
+                };
+                petsPreview.appendChild(div);
+            });
+        }
+        // Renderizar favoritos
+        function renderFavs() {
+            const pets = JSON.parse(localStorage.getItem('pets')) || [];
+            const favIds = JSON.parse(localStorage.getItem('favPetIds') || '[]');
+            const favsPreview = document.getElementById('vetsPreview');
+            favsPreview.innerHTML = '';
+            pets.filter(pet => favIds.includes(pet.id)).forEach(pet => {
+                const div = document.createElement('div');
+                div.className = 'pet-card';
+                div.innerHTML = `
+                    <img src="${pet.photo || 'img/avatar.png'}" alt="${pet.name}" class="pet-avatar-mini">
+                    <div style='flex:1;'>
+                      <b>${pet.name}</b> <br><span style='font-size:13px;color:#888;'>${pet.type} - ${pet.breed}</span>
+                    </div>
+                    <span class="pet-fav selected" title="Favorito">&#10084;</span>
+                    <span class="pet-edit" title="Editar">&#9998;</span>
+                `;
+                div.querySelector('.pet-avatar-mini').onclick = div.onclick = function(e) {
+                    if(e.target.classList.contains('pet-fav') || e.target.classList.contains('pet-edit')) return;
+                    showPetDetail(pet);
+                };
+                div.querySelector('.pet-fav').onclick = function(e) {
+                    e.stopPropagation();
+                    let favs = JSON.parse(localStorage.getItem('favPetIds') || '[]');
+                    favs = favs.filter(id => id !== pet.id);
+                    localStorage.setItem('favPetIds', JSON.stringify(favs));
+                    renderPets();
+                    renderFavs();
+                };
+                div.querySelector('.pet-edit').onclick = function(e) {
+                    e.stopPropagation();
+                    editPet(pet);
+                };
+                favsPreview.appendChild(div);
+            });
+        }
+        // Modal detalle mascota
+        function showPetDetail(pet) {
+            const modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.top = 0;
+            modal.style.left = 0;
+            modal.style.width = '100vw';
+            modal.style.height = '100vh';
+            modal.style.background = 'rgba(0,0,0,0.35)';
+            modal.style.display = 'flex';
+            modal.style.alignItems = 'center';
+            modal.style.justifyContent = 'center';
+            modal.style.zIndex = 9999;
+            modal.innerHTML = `
+            <div style="background:#fff;border-radius:18px;max-width:340px;width:90vw;padding:22px 16px;box-shadow:0 8px 32px #667eea22;position:relative;">
+                <span style="position:absolute;top:10px;right:18px;font-size:22px;cursor:pointer;" id="closePetDetail">&times;</span>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+                    <img src="${pet.photo || 'img/avatar.png'}" alt="${pet.name}" style="width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid #667eea;">
+                    <h2 style="margin:8px 0 2px 0;">${pet.name}</h2>
+                    <div style="color:#888;font-size:15px;">${pet.type} - ${pet.breed}</div>
+                    <div style="margin-top:10px;text-align:left;width:100%;font-size:15px;">
+                        <b>Edad:</b> ${pet.age} años<br>
+                        <b>Género:</b> ${pet.gender}<br>
+                        <b>Esterilizado/a:</b> ${pet.sterilized}<br>
+                        <b>Peso:</b> ${pet.weight} kg<br>
+                        <b>Color:</b> ${pet.color} ${pet.colorDetails}<br>
+                        <b>Microchip:</b> ${pet.microchip}<br>
+                        <b>Enfermedades:</b> ${pet.diseases}<br>
+                        <b>Alergias:</b> ${pet.allergies === 'true' ? pet.allergyDetails : 'No'}
+                    </div>
+                </div>
+            </div>
+            `;
+            document.body.appendChild(modal);
+            document.getElementById('closePetDetail').onclick = () => modal.remove();
+            modal.onclick = e => { if(e.target === modal) modal.remove(); };
+        }
+        // Modal editar mascota
+        function editPet(pet) {
+            // Rellenar el formulario del modal con los datos de la mascota
+            document.getElementById('petName').value = pet.name;
+            document.getElementById('petType').value = pet.type;
+            document.getElementById('petBreed').value = pet.breed;
+            document.getElementById('petAge').value = pet.age;
+            document.getElementById('petGender').value = pet.gender;
+            document.getElementById('petSterilized').value = pet.sterilized;
+            document.getElementById('petColor').value = pet.color;
+            document.getElementById('petColorDetails').value = pet.colorDetails;
+            document.getElementById('petDiseases').value = pet.diseases;
+            document.getElementById('petAllergies').value = pet.allergies;
+            document.getElementById('allergyDetails').value = pet.allergyDetails;
+            document.getElementById('petWeight').value = pet.weight;
+            document.getElementById('petMicrochip').value = pet.microchip;
+            // No editamos la foto aquí por simplicidad UX
+            document.getElementById('petId').value = pet.id;
+            document.getElementById('petModal').style.display = 'block';
+        }
+        renderPets();
+        renderFavs();
+
+        // Cerrar sesión
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            localStorage.removeItem('petLifeUser');
+            window.location.href = 'login.html';
+        });
+    });
+    </script>
+
+    <!-- Modal para registrar mascotas> -->
+<div id="petModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Nueva Mascota</h2>
+        <form id="petForm">
+            <!-- Campo oculto para ID -->
+            <input type="hidden" id="petId" value="">
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="petName">Nombre *</label>
+                    <input type="text" id="petName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="petType">Tipo *</label>
+                    <select id="petType" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="Perro">Perro</option>
+                        <option value="Gato">Gato</option>
+                        <option value="Ave">Ave</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="petBreed">Raza *</label>
+                <input type="text" id="petBreed" list="breedsList" required>
+                <datalist id="breedsList">
+                    <!-- Las opciones se cargarán dinámicamente desde la API -->
+                </datalist>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="petAge">Edad (años) *</label>
+                    <input type="number" id="petAge" min="0" max="30" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="petGender">Género *</label>
+                    <select id="petGender" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="Hembra">Hembra</option>
+                        <option value="Macho">Macho</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="petSterilized">Esterilizado/a</label>
+                <select id="petSterilized">
+                    <option value="false">No</option>
+                    <option value="true">Sí</option>
+                </select>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="petColor">Color principal</label>
+                    <select id="petColor">
+                        <option value="">Seleccionar...</option>
+                        <option value="Negro">Negro</option>
+                        <option value="Blanco">Blanco</option>
+                        <option value="Café">Café</option>
+                        <option value="Beige">Beige</option>
+                        <option value="Naranja">Naranja</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="petColorDetails">Detalle de color</label>
+                    <input type="text" id="petColorDetails" placeholder="Ej: Manchas grises">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="petDiseases">Enfermedades conocidas</label>
+                <textarea id="petDiseases" rows="2" placeholder="Ej: Diabetes, artritis..."></textarea>
+            </div>
+
+            <div class="form-group allergy-group">
+                <label for="petAllergies">¿Tiene alergias?</label>
+                <select id="petAllergies">
+                    <option value="false">No</option>
+                    <option value="true">Sí</option>
+                </select>
+                <div id="allergyDetailsContainer" style="display: none;">
+                    <label for="allergyDetails">¿A qué tiene alergia?</label>
+                    <input type="text" id="allergyDetails" placeholder="Ej: Pollo, gramíneas...">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="petWeight">Peso (kg)</label>
+                    <input type="number" id="petWeight" min="0" step="0.1" placeholder="Ej: 5.2">
+                </div>
+                
+                <div class="form-group">
+                    <label for="petMicrochip">Microchip/ID</label>
+                    <input type="text" id="petMicrochip" placeholder="Número de identificación">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="petPhoto">Foto</label>
+                <input type="file" id="petPhoto" accept="image/*">
+                <div class="photo-preview" id="photoPreview"></div>
+            </div>
+            
+            <button type="submit" class="submit-btn">Guardar Mascota</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

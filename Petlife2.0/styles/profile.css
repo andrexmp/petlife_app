@@ -1,0 +1,499 @@
+/* ===== RESET Y ESTILOS BASE ===== */
+/* Elimina márgenes por defecto y previene scroll horizontal */
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background-color: #f5f5f5;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* ===== CONTENEDOR PRINCIPAL ===== */
+/* Ocupa toda la pantalla con márgenes laterales pequeños */
+.profile-container {
+    width: 100%;
+    min-height: 100vh;
+    padding: 20px 15px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    padding-bottom: 80px; /* Espacio para el menú inferior */
+}
+
+/* ===== ENCABEZADO DEL PERFIL ===== */
+.profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    padding: 10px;
+}
+
+/* Contenedor de la foto circular */
+.profile-pic-container {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin-top: 15px;
+}
+
+/* Foto de perfil circular */
+.profile-pic {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #4285f4;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Icono de edición (cámara) */
+.edit-icon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: #4285f4;
+    color: white;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+/* Saludo principal */
+#welcomeMessage {
+    font-size: 1.8rem;
+    color: #333;
+    margin: 0;
+    text-align: center;
+}
+
+/* ===== SECCIONES (MASCOTAS/VETERINARIOS) ===== */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 25px 0 15px;
+    padding: 0 5px;
+}
+
+.section-title {
+    font-size: 1.2rem;
+    color: #333;
+    margin: 0;
+}
+
+/* Botón "Ver todos" */
+.view-all-btn {
+    background: none;
+    border: none;
+    color: #4285f4;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+/* ===== LISTA DE MASCOTAS ===== */
+.pets-preview {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Item individual de mascota */
+.pet-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.pet-item:last-child {
+    border-bottom: none;
+}
+
+/* Información de la mascota */
+.pet-info {
+    flex: 1;
+}
+
+.pet-type {
+    font-size: 0.7rem;
+    color: #666;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+}
+
+.pet-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 3px;
+}
+
+.pet-details {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+/* Foto de la mascota */
+.pet-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* ===== LISTA DE VETERINARIOS ===== */
+.vets-preview {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+/* Item individual de veterinario */
+.vet-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.vet-item:last-child {
+    border-bottom: none;
+}
+
+/* Foto del veterinario */
+.vet-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Información del veterinario */
+.vet-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 3px;
+}
+
+.vet-rating {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+/* ===== MENÚ INFERIOR ===== */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    display: flex;
+    justify-content: space-around;
+    padding: 12px 0;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    z-index: 100;
+}
+
+/* Items del menú */
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #666;
+    font-size: 0.8rem;
+}
+
+.nav-item i {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+/* Item activo */
+.nav-item.active {
+    color: #4285f4;
+}
+
+/* ===== AJUSTES PARA SAFE AREA (iPhone) ===== */
+@supports (-webkit-touch-callout: none) {
+    body {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+    .bottom-nav {
+        padding-bottom: calc(12px + env(safe-area-inset-bottom));
+    }
+}
+
+/* ===== MEDIA QUERIES PARA PANTALLAS MÁS GRANDES ===== */
+@media (min-width: 768px) {
+    .profile-container {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 1000;
+    overflow-y: auto;
+}
+/* Contenido del modal */
+.modal-content {
+    background: white;
+    margin: 5% auto;
+    padding: 25px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: modalFadeIn 0.3s;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+/* Estilo para el botón de cerrar modal */
+.close-modal {
+    float: right;
+    font-size: 28px;
+    cursor: pointer;
+    color: #aaa;
+}
+
+/* Formulario */
+.form-group {
+    margin-bottom: 20px;
+}
+/* Estilo para las etiquetas del formulario */
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+/* Estilo para los campos de entrada del formulario */
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+}
+/* Estilo para el campo de entrada de texto */
+.photo-preview {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-top: 10px;
+    overflow: hidden;
+    border: 2px dashed #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* Vista previa de la foto */
+
+.photo-preview img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+/* Botón de envío del formulario */
+.submit-btn {
+    background: #4285f4;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.3s;
+}
+/* Efecto hover para el botón de envío */
+.submit-btn:hover {
+    background: #3367d6;
+}
+
+/* Botón para agregar mascota */
+.add-pet-btn {
+    background: #4285f4;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 50px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 20px auto;
+    box-shadow: 0 3px 10px rgba(66, 133, 244, 0.3);
+}
+
+/* Menú de usuario */
+.user-menu-container {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 100;
+}
+/* Botón del menú de usuario */
+.user-menu-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: #4285f4;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.3s;
+}
+/* Efecto hover para el botón del menú de usuario */
+.user-menu-btn:hover {
+    background: rgba(66, 133, 244, 0.1);
+}
+
+.user-menu-dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 40px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    width: 200px;
+    overflow: hidden;
+    z-index: 101;
+}
+/* Elemento del menú desplegable */
+.user-menu-dropdown.show {
+    display: block;
+}
+/* Estilos para los elementos del menú */
+.menu-item {
+    width: 100%;
+    padding: 12px 15px;
+    text-align: left;
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s;
+}
+/* Efecto hover para los elementos del menú */
+.menu-item:hover {
+    background: #f5f5f5;
+    color: #4285f4;
+}
+/* Icono dentro del menú */
+.menu-item i {
+    width: 20px;
+    text-align: center;
+}
+
+/* Estilo para el separador del menú */
+.user-menu-dropdown {
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(-10px);
+}
+/* Mostrar el menú desplegable con animación */
+
+.user-menu-dropdown.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Estilos para el formulario de mascotas */
+.modal-content {
+    max-width: 500px;
+    width: 90%;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.allergy-group select {
+    margin-bottom: 10px;
+}
+
+.photo-preview {
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    margin-top: 10px;
+    overflow: hidden;
+    border: 1px dashed #ccc;
+}
+
+.photo-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.submit-btn {
+    background: #4285f4;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+}
